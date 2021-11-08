@@ -1,0 +1,378 @@
+﻿
+@model DOCUMENTS_VW
+
+@{
+    var privatelst = Model.LstDocument.Where(c => !c.IS_PUBLIC);
+    var publiclst = Model.LstDocument.Where(c => c.IS_PUBLIC);
+    var sharedLst = Model.LstShared;
+}
+
+
+@if (publiclst.Count() > 0)
+{
+
+
+    <h4 class="text-center  mb-3">My Public Photos</h4>
+
+    <table class="table table-striped table-responsive">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th></th>
+                <th>Photo Name</th>
+                <th>Caputured</th>
+                <th>
+                    Caputured Date
+                </th>
+                <th>Geolocation</th>
+                <th>Tags</th>
+                <th>Size (KB)</th>
+                <th>Photo Type</th>
+                @*<th>Upload Date</th>*@
+                <th>Download</th>
+                <th>Log</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+            @foreach (var itemWithIndex in publiclst.Select((item, index) => (item, index)))
+            {
+
+                var item = itemWithIndex.item;
+
+                <tr>
+
+                    <td>
+                        @{var index = itemWithIndex.index + 1;}
+                        @index
+                    </td>
+                    <td>
+                        <img style="height:50px; width:50px" src="~/Documents/@item.FILE_NAME" />
+                    </td>
+                    <td>@item.ORGINAL_FILE_NAME</td>
+                    <td>@item.CAPUTURED</td>
+                    <td>@item.CAPUTURED_DATE</td>
+                    <td>@item.GEOLOCATION</td>
+                    <td>@item.TAGS</td>
+                    <td>@item.FILE_SIZE</td>
+                    <td>@item.FILE_TYPE</td>
+                    @*<td>@item.CREATED_ON</td>*@
+                    <td>
+                        <a class="text-purple" asp-action="DownloadFile" asp-route-DOC_ID="@item.DOC_ID" target="_blank">
+                            <i class="fas fa-cloud-download-alt"></i>
+                        </a>
+                    </td>
+                    <td> <a class="btn-log" style="cursor:pointer" data-id="@item.DOC_ID"><i class="fas fa-folder-open"></i></a></td>
+                    <td>
+                        <a class="text-purple" asp-action="UploadFile" asp-route-DoId="@item.DOC_ID" target="_self">
+                            <i class="fas fa-edit"></i>
+                        </a>
+
+                    </td>
+                    <td>
+                        <a class=" btn-delete" style="cursor:pointer" data-id="@item.DOC_ID">
+                            <i class="text-danger fas fa-trash-alt"></i>
+                        </a>
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+
+    </table>
+
+}
+
+@if (privatelst.Count() > 0)
+{
+
+
+    <h4 class="text-center  my-3">My Private Photos</h4>
+
+
+    <table class="table table-striped  table-responsive">
+        <thead>
+            <tr>
+
+                <th>#</th>
+                <th> </th>
+                <th>Photo Name</th>
+                <th>Caputured</th>
+                <th>
+                    Caputured Date
+                </th>
+                <th>Geolocation</th>
+                <th>Tags</th>
+                <th>Size (KB)</th>
+                <th>Photo Type</th>
+                @*<th>Upload By</th>
+                <th>Upload Date</th>*@
+                <th>Download</th>
+                <th>Log</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+            @foreach (var itemWithIndex in privatelst.Select((item, index) => (item, index)))
+            {
+                var item = itemWithIndex.item;
+
+                <tr>
+                    <td>
+                        @{var index = itemWithIndex.index + 1;}
+                        @index
+                    </td>
+                     <td>
+                        <img style="height:50px; width:50px" src="~/Documents/@item.FILE_NAME" />
+                    </td>
+                    <td>@item.ORGINAL_FILE_NAME</td>
+                    <td>@item.CAPUTURED</td>
+                    <td>@item.CAPUTURED_DATE</td>
+                    <td>@item.GEOLOCATION</td>
+                    <td>@item.TAGS</td>
+                    <td>@item.FILE_SIZE</td>
+                    <td>@item.FILE_TYPE</td>
+                     @*<td>@item.CREATED_BY_USER.FIRST_NAME</td>
+
+                    <td>@item.CREATED_ON</td>*@
+                    <td>
+                        <a class="text-purple" asp-action="DownloadFile" asp-route-DOC_ID="@item.DOC_ID" target="_blank">
+                            <i class="fas fa-cloud-download-alt"></i>
+                        </a>
+                    </td>
+                    <td> <a class="btn-log" style="cursor:pointer" data-id="@item.DOC_ID"><i class="fas fa-folder-open"></i></a></td>
+                    <td>
+                        <a class="text-purple" asp-action="UploadFile" asp-route-DoId="@item.DOC_ID" target="_self">
+                            <i class="fas fa-edit"></i>
+                        </a>
+
+                    </td>
+                    <td>
+                        <a class=" btn-delete" style="cursor:pointer" data-id="@item.DOC_ID">
+                            <i class="text-danger fas fa-trash-alt"></i>
+                        </a>
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+
+    </table>
+}
+
+@if (sharedLst.Count() > 0)
+{
+    <h4 class="text-center  my-3"> Photos Shared with me</h4>
+    <table class="table table-striped  table-responsive">
+        <thead>
+            <tr>
+
+                <th>#</th>
+                <th></th>
+                <th>Photo Name</th>
+                <th>Caputured</th>
+                <th>
+                    Caputured Date
+                </th>
+                <th>Geolocation</th>
+                <th>Tags</th>
+                <th>Size (KB)</th>
+                <th>Photo Type</th>
+                @*<th>Upload By</th>
+                <th>Upload Date</th>*@
+                <th>Download</th>
+                <th>Log</th>
+                <th>Edit</th>
+            </tr>
+
+        </thead>
+        <tbody>
+            @foreach (var itemWithIndex in sharedLst.Select((item, index) => (item, index)))
+            {
+                var item = itemWithIndex.item;
+
+                <tr>
+                    <td>
+                        @{var index = itemWithIndex.index + 1;}
+                        @index
+                    </td>
+                     <td>
+                        <img style="height:50px; width:50px" src="~/Documents/@item.DOCUMENTS.FILE_NAME" />
+                    </td>
+                    <td>@item.DOCUMENTS.ORGINAL_FILE_NAME</td>
+                    <td>@item.DOCUMENTS.CAPUTURED</td>
+                    <td>@item.DOCUMENTS.CAPUTURED_DATE</td>
+                    <td>@item.DOCUMENTS.GEOLOCATION</td>
+                    <td>@item.DOCUMENTS.TAGS</td>
+                    <td>@item.DOCUMENTS.FILE_SIZE</td>
+                    <td>@item.DOCUMENTS.FILE_TYPE</td>
+                    @*<td>@item.DOCUMENTS.CREATED_BY_USER.FIRST_NAME</td>
+
+                    <td>@item.DOCUMENTS.CREATED_ON</td>*@
+                    <td>
+                        <a class="text-purple" asp-action="DownloadFile" asp-route-DOC_ID="@item.DOC_ID" target="_blank">
+                            <i class="fas fa-cloud-download-alt"></i>
+                        </a>
+                    </td>
+                    <td> <a class="btn-log" style="cursor:pointer" data-id="@item.DOC_ID"><i class="fas fa-folder-open"></i></a></td>
+                    <td>
+                        <a class="text-purple" asp-action="UploadFile" asp-route-DoId="@item.DOC_ID" target="_self">
+                            <i class="fas fa-edit"></i>
+                        </a>
+
+                    </td>
+                    
+                </tr>
+
+            }
+        </tbody>
+
+    </table>
+ }
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Delete Item</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form method="post" asp-action="DeleteFile">
+                        <input type="hidden" name="DOC_ID" id="delete_doc_id" />
+                        <div class="modal-body">
+                            <div>You are sure to delete this item</div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" style="background-color:purple">Delete</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal fade" id="docLogModal" tabindex="-1" role="dialog" aria-labelledby="docLogModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Photo Logs</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form method="post" asp-action="DeleteFile">
+                        <div class="modal-body">
+                            <table class="table table-striped  table-responsive" id="tb_log">
+                                <thead>
+                                    <tr>
+
+                                        <th>#</th>
+                                        <th></th>
+                                        <th>Photo Name</th>
+                                        <th>Caputured</th>
+                                        <th>
+                                            Caputured Date
+                                        </th>
+                                        <th>Geolocation</th>
+                                        <th>Tags</th>
+                                        <th>Size (KB)</th>
+                                        <th>Photo Type</th>
+                                        <th>Created By</th>
+                                        <th>Created Date</th>
+                                        <th>Download</th>
+                                    </tr>
+
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+        @section scripts{
+
+   <script>
+        $(document).ready(function () {
+
+            $('.btn-delete').click(function () {
+                var id = $(this).data('id');
+                $('#delete_doc_id').val(id);
+                $("#deleteModal").modal('show')
+            });
+            $('.btn-log').click(function () {
+                var id = $(this).data('id');
+                GetDocLog(id);
+            });
+
+        })
+        var GetDocLog = function (id) {
+            var url = '@Url.Content("~/Home/GetDocLog")';
+            $.ajax({
+                type: "GET",
+                url: url,
+                dataType: 'json',
+                data: { docId: id },
+                contentType: 'application/json',
+                success: function (data) {
+                    var data = JSON.parse(data);
+
+                    var html = ''
+                    $.each(data, function (index, item) {
+                        html += '<tr>'
+                        html += '<td>' + (index + 1) + '</td>'
+                        html += '<td> <img style="height:50px; width:50px" src="@Url.Content("~/Documents/")' + item.FILE_NAME + '" /></td>'
+
+                        html += '<td>' + item.ORGINAL_FILE_NAME + '</td>'
+                        html +=' <td>' +item.CAPUTURED+'</td>'
+                        html +=' <td>' +item.CAPUTURED_DATE+'</td>'
+                        html +='<td>'  +item.GEOLOCATION+'</td>'
+                        html += '<td>' + item.TAGS+'</td>'
+                        html += '<td>' + item.FILE_SIZE + '</td>'
+                        html += '<td>' + item.FILE_TYPE + '</td>'
+                        html += '<td>' + item.CREATED_BY_USER.FIRST_NAME + '</td>'
+                        html += '<td>' + remove_time(item.CREATED_ON) + '</td>'
+                        html += '<td>  \
+                                    <a class="text-purple  style="cursor:pointer" href="/Home/DownloadLogFile?DOC_ID='+ item.DOC_LOG_ID+'">\
+                                            <i class="fas fa-cloud-download-alt"></i>\
+                                    </a>\
+                                </td>'
+
+                        html += '</tr>'
+                    })
+                    $('#tb_log tbody').html(html)
+                    $("#docLogModal").modal('show')
+
+                    return false;
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+
+                    //GetErrorMessage(jqXHR, textStatus, errorThrown);
+                }
+            });
+        };
+            </script>
+
+            <style>
+                @@media (min-width: 576px) {
+                    .modal-dialog {
+                        max-width: 1000px !important;
+                    }
+                }
+            </style>
+        }

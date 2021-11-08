@@ -1,0 +1,98 @@
+﻿@inject SignInManager<USERS_TB> sm
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PhotoCom</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link href="~/css/all.css" rel="stylesheet" />
+    <link href="~/css/Login.css" rel="stylesheet" />
+    <link href="~/css/select2.css" rel="stylesheet" />
+    <style>
+        td, th {
+            text-align: center !important;
+        }
+
+        .text-purple {
+            color: purple !important;
+        }
+
+        html {
+            overflow-y: auto
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-action="Index">PhotoCom</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="ml-auto navbar-nav flex-grow-1 justify-content-end">
+                        @if (sm.IsSignedIn(User))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" >welcome  @User.Identity.Name</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark"  asp-action="Logout" asp-controller="user">Logout</a>
+                            </li>
+                        }
+
+                    </ul>
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-action="Index">My Photos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-action="PuplicPhotos">All Puplic Photos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-action="UploadFile">Upload Photo</a>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2021 - PhotoCom
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/all.js"></script>
+
+    <script src="~/js/select2.js"></script>
+    <script>
+        var remove_time = function (date) {
+            if (date != null && date != "" && date != " ") {
+                var today = new Date(date);
+
+                return today.toLocaleDateString("en-US")
+            }
+            else
+                return null;
+        }
+    </script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
