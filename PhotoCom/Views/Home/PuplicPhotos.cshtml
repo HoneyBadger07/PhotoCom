@@ -10,68 +10,45 @@
 {
 
 
-    <h4 class="text-center  mb-3">All Public Photos</h4>
+    <h4 class="  mb-3">All Public Photos</h4>
 
-    <table class="table table-striped  table-responsive">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th></th>
-                <th>Photo Name</th>
-                <th>Caputured</th>
-                <th>
-                    Caputured Date
-                </th>
-                <th>Geolocation</th>
-                <th>Tags</th>
-                <th>Size (KB)</th>
-                <th>Photo Type</th>
-                <th>Upload By</th>
+    <div class="row">
 
-                <th>Upload Date</th>
-                <th>Download</th>
 
-            </tr>
 
-        </thead>
+        @for (int i = 0; i < publiclst.Count(); i++)
+        {
 
-        <tbody>
-            @foreach (var itemWithIndex in publiclst.Select((item, index) => (item, index)))
-            {
+            DOCUMENTS_TB item = publiclst[i];
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 my-3">
+                <div class="hovereffect">
 
-                var item = itemWithIndex.item;
+                    <img class="img-responsive img-fluid h-100 w-100" src='@Url.Content("~/Documents/")@item.FILE_NAME ' alt="">
+                    <div class="overlay">
 
-                <tr>
+                        <p>
 
-                    <td>
-                        @{var index = itemWithIndex.index + 1;}
-                        @index
-                    </td>
-                      <td>
-                        <img style="height:50px; width:50px" src="~/Documents/@item.FILE_NAME" />
-                    </td>
-                    <td>@item.ORGINAL_FILE_NAME</td>
-                    <td>@item.CAPUTURED</td>
-                    <td>@item.CAPUTURED_DATE</td>
-                    <td>@item.GEOLOCATION</td>
-                    <td>@item.TAGS</td>
-                    <td>@item.FILE_SIZE</td>
-                    <td>@item.FILE_TYPE</td>
-                    <td>@item.CREATED_BY_USER.FIRST_NAME</td>
+                            <a class="mx-3" asp-action="DownloadFile" asp-route-DOC_ID="@item.DOC_ID" target="_blank">
+                                <i class="fas fa-cloud-download-alt"></i>
+                            </a>
 
-                    <td>@item.CREATED_ON</td>
-                    <td>
-                        <a class="text-purple" asp-action="DownloadFile" asp-route-DOC_ID="@item.DOC_ID" target="_blank">
-                            <i class="fas fa-cloud-download-alt"></i>
-                        </a>
-                    </td>
-                
-                </tr>
 
-            }
-        </tbody>
 
-    </table>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+        }
+
+
+
+    </div>
 
 }
 else
