@@ -37,7 +37,11 @@
                                 <i class="fas fa-cloud-download-alt"></i>
                             </a>
 
-                            <a class="btn-log mr-3" style="cursor:pointer" data-id="@item.DOC_ID"><i class="fas fa-folder-open"></i></a>
+                            <a class="btn-show" data-DOC_ID="@item.DOC_ID" data-CAPUTURED="@item.CAPUTURED" data-TAGS="@item.TAGS" data-GEOLOCATION="@item.GEOLOCATION" data-CAPUTURED_DATE="@item.CAPUTURED_DATE" data-ORGINAL_FILE_NAME="@item.ORGINAL_FILE_NAME" data-FILE_SIZE="@item.FILE_SIZE" data-FILE_TYPE="@item.FILE_TYPE">
+                                <i class="fas fa-eye"></i>
+                            </a>
+
+                            <a class="btn-log mx-3" style="cursor:pointer" data-id="@item.DOC_ID"><i class="fas fa-folder-open"></i></a>
                             <a class=" btn-delete" style="cursor:pointer" data-id="@item.DOC_ID">
                                 <i class=" fas fa-trash-alt"></i>
                             </a>
@@ -88,8 +92,11 @@
                             <a class="mx-3" asp-action="DownloadFile" asp-route-DOC_ID="@item.DOC_ID" target="_blank">
                                 <i class="fas fa-cloud-download-alt"></i>
                             </a>
+                            <a class="btn-show " data-DOC_ID="@item.DOC_ID" data-CAPUTURED="@item.CAPUTURED" data-TAGS="@item.TAGS" data-GEOLOCATION="@item.GEOLOCATION" data-CAPUTURED_DATE="@item.CAPUTURED_DATE" data-ORGINAL_FILE_NAME="@item.ORGINAL_FILE_NAME" data-FILE_SIZE="@item.FILE_SIZE" data-FILE_TYPE="@item.FILE_TYPE">
+                                <i class="fas fa-eye"></i>
+                            </a>
 
-                            <a class="btn-log mr-3" style="cursor:pointer" data-id="@item.DOC_ID"><i class="fas fa-folder-open"></i></a>
+                            <a class="btn-log mx-3" style="cursor:pointer" data-id="@item.DOC_ID"><i class="fas fa-folder-open"></i></a>
                             <a class=" btn-delete" style="cursor:pointer" data-id="@item.DOC_ID">
                                 <i class=" fas fa-trash-alt"></i>
                             </a>
@@ -132,14 +139,17 @@
                     <div class="overlay">
 
                         <p>
-                            <a asp-action="UploadFile" asp-route-DoId="@item.DOC_ID" target="_self">
+                            <a class="mr-3" asp-action="UploadFile" asp-route-DoId="@item.DOC_ID" target="_self">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <a class="mx-3" asp-action="DownloadFile" asp-route-DOC_ID="@item.DOC_ID" target="_blank">
+                            <a asp-action="DownloadFile" asp-route-DOC_ID="@item.DOC_ID" target="_blank">
                                 <i class="fas fa-cloud-download-alt"></i>
                             </a>
+                            <a class="btn-show  ml-3" data-DOC_ID="@item.DOC_ID" data-CAPUTURED="@item.CAPUTURED" data-TAGS="@item.TAGS" data-GEOLOCATION="@item.GEOLOCATION" data-CAPUTURED_DATE="@item.CAPUTURED_DATE" data-ORGINAL_FILE_NAME="@item.ORGINAL_FILE_NAME" data-FILE_SIZE="@item.FILE_SIZE" data-FILE_TYPE="@item.FILE_TYPE">
+                                <i class="fas fa-eye"></i>
+                            </a>
 
-                            <a class="btn-log mr-3" style="cursor:pointer" data-id="@item.DOC_ID"><i class="fas fa-folder-open"></i></a>
+                            <a class="btn-log ml-3" style="cursor:pointer" data-id="@item.DOC_ID"><i class="fas fa-folder-open"></i></a>
 
 
                         </p>
@@ -232,6 +242,62 @@
 
 
 
+<div class="modal fade" id="showDocDetailsModal" tabindex="-1" role="dialog" aria-labelledby="showDocDetailsLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Photo Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+
+                <div>
+                    <h6 style="font-weight:700">Photo Name</h6>
+                    <p id="lblorginal_file_name"></p>
+                </div>
+                <div>
+                    <h6 style="font-weight:700">Caputured</h6>
+                    <p id="lblcaputured"></p>
+                </div>
+                <div>
+                    <h6 style="font-weight:700"> Caputured Date</h6>
+                    <p id="lblcaputured_date"></p>
+                </div>
+
+                <div>
+                    <h6 style="font-weight:700">Geolocation</h6>
+                    <p id="lblgeolocation"></p>
+                </div>
+
+                <div>
+                    <h6 style="font-weight:700">Tags</h6>
+                    <p id="lbltags"></p>
+                </div>
+
+                <div>
+                    <h6 style="font-weight:700">Size (KB)</h6>
+                    <p id="lblfile_size"></p>
+                </div>
+
+                <div>
+                    <h6 style="font-weight:700">Photo Type</h6>
+                    <p id="lblfile_type"></p>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
 @section scripts{
 
     <script>
@@ -247,6 +313,24 @@
                 GetDocLog(id);
             });
 
+        })
+        $('.btn-show').on('click', function (e) {
+            var doc_id = $(this).data('doc_id');
+            var caputured_date = $(this).data('caputured_date');
+            var orginal_file_name = $(this).data('orginal_file_name');
+            var file_size = $(this).data('file_size');
+            var file_type = $(this).data('file_type');
+            var tags = $(this).data('tags');
+            var geolocation = $(this).data('geolocation');
+            var caputured = $(this).data('caputured');
+            $('#showDocDetailsModal #lblorginal_file_name').text(orginal_file_name)
+            $('#showDocDetailsModal #lblcaputured').text(caputured)
+            $('#showDocDetailsModal #lblgeolocation').text(geolocation)
+            $('#showDocDetailsModal #lbltags').text(tags)
+            $('#showDocDetailsModal #lblfile_type').text(file_type)
+            $('#showDocDetailsModal #lblfile_size').text(file_size)
+            $('#showDocDetailsModal #lblcaputured_date').text(caputured_date)
+            $('#showDocDetailsModal').modal('show')
         })
         var GetDocLog = function (id) {
             var url = '@Url.Content("~/Home/GetDocLog")';
@@ -296,8 +380,9 @@
     </script>
 
     <style>
+
         @@media (min-width: 576px) {
-            .modal-dialog {
+            #docLogModal .modal-dialog {
                 max-width: 1000px !important;
             }
         }
