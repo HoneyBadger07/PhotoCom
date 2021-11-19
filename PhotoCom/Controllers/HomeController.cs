@@ -42,18 +42,18 @@ namespace PhotoCom.Controllers
             ViewData["Title"] = "My Photo";
             return View(_documentsServices.GetAllDocument(_userManager.GetUserId(User)));
 
-        }  
-        
+        }
+
         public IActionResult PuplicPhotos()
 
         {
             if (!IsLogin())
-             return RedirectToAction("Login", "User");
+                return RedirectToAction("Login", "User");
 
             ViewData["Title"] = "All Puplic Photos";
             return View(_documentsServices.GetAllPublicPhoto());
 
-        }  
+        }
         [HttpGet]
         public IActionResult UploadFile(string DoId)
         {
@@ -128,10 +128,10 @@ namespace PhotoCom.Controllers
         }
 
         [HttpGet]
-        public JsonResult GetDocLog (int docId)
+        public JsonResult GetDocLog(int docId)
         {
-           List<DOC_LOG_TB> lst  =  _documentsServices.GetLogByDocId(docId);
-          var json =  JsonConvert.SerializeObject(lst);
+            List<DOC_LOG_TB> lst = _documentsServices.GetLogByDocId(docId);
+            var json = JsonConvert.SerializeObject(lst);
 
             return Json(json);
         }
@@ -226,27 +226,27 @@ namespace PhotoCom.Controllers
             return RedirectToAction("index", "home");
 
 
-        } 
+        }
         public IActionResult DownloadLogFile(int DOC_ID)
         {
             if (!IsLogin())
                 return RedirectToAction("Login", "User");
             var document = _documentsServices.GetDocumentLogById(DOC_ID);
-            if(document != null)
+            if (document != null)
             {
                 var pathToFile = Path.Combine(_env.WebRootPath, "Documents", document.FILE_NAME);
                 if (System.IO.File.Exists(pathToFile))
                 {
                     byte[] contents = System.IO.File.ReadAllBytes(pathToFile);
-                    return File(contents, document.GetContentType(),document.ORGINAL_FILE_NAME);
+                    return File(contents, document.GetContentType(), document.ORGINAL_FILE_NAME);
                 }
-               
+
 
             }
             return RedirectToAction("index", "home");
 
 
-        } 
+        }
         [HttpPost]
         public IActionResult DeleteFile(int DOC_ID)
         {

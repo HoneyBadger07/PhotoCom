@@ -16,7 +16,7 @@ namespace PhotoCom.Model.Interfaces
         public DOCUMENTS_VW GetAllDocument(string user_id);
         public List<DOCUMENTS_TB> GetAllPublicPhoto();
 
-        public List<DOC_SHARED_TB> GetDocumentUserShared(int doc_id); 
+        public List<DOC_SHARED_TB> GetDocumentUserShared(int doc_id);
         public List<DOC_LOG_TB> GetLogByDocId(int docId);
 
         public void SaveDocument(DOCUMENTS_TB doc);
