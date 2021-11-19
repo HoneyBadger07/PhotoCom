@@ -31,21 +31,21 @@ namespace PhotoCom.Model.SqlManger
                 List<string> photoLst = new List<string>(); 
                 try
                 {
-                    var doceument = _con.DOCUMENTS_TB.Where(c => c.DOC_ID == docId)?.FirstOrDefault();
+                    var photo = _con.DOCUMENTS_TB.Where(c => c.DOC_ID == docId)?.FirstOrDefault();
 
-                    foreach (var item in _con.DOC_SHARED_TB.Where(c => c.DOC_ID == doceument.DOC_ID).ToList())
+                    foreach (var item in _con.DOC_SHARED_TB.Where(c => c.DOC_ID == photo.DOC_ID).ToList())
                     {
                         _con.DOC_SHARED_TB.Remove(item);
                     }  
-                    foreach (var item in _con.DOC_LOG_TB.Where(c => c.DOC_ID == doceument.DOC_ID).ToList())
+                    foreach (var item in _con.DOC_LOG_TB.Where(c => c.DOC_ID == photo.DOC_ID).ToList())
                     {
                         photoLst.Add(item.FILE_NAME);
 
                         _con.DOC_LOG_TB.Remove(item);
                     }
 
-                    photoLst.Add(doceument.FILE_NAME);
-                    _con.DOCUMENTS_TB.Remove(doceument);
+                    photoLst.Add(photo.FILE_NAME);
+                    _con.DOCUMENTS_TB.Remove(photo);
                     _con.SaveChanges();
                     trans.Commit();
                 }
